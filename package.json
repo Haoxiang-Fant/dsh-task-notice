@@ -1,0 +1,89 @@
+{
+  "name": "dsh-task-notice",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 插件:代理任务完工通知(弹窗提示任务完成与本次 Token 消耗)+ 按 API Key 的 Token 消耗统计(缓存输入/缓外输入/输出,1年/6个月/3个月/1个月/15天/1周/24小时/自定义时间范围查询)+ 安全启动(版本兼容与插件冲突检测,冲突或版本不兼容时自动取消插件运行;模块解析失败等异常同样只会停用本插件,保证 DSH 正常启动)。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./typert": {
+      "default": "./lib/typert.host.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "dshhub": {
+    "schemaVersion": 1,
+    "displayName": "dsh-task-notice",
+    "summary": "代理任务完工弹窗通知(含本次 Token 消耗)、按 API Key 统计 Token 消耗(缓存输入/缓外输入/输出,支持 1年/6个月/3个月/1个月/15天/1周/24小时/自定义时间)、安全启动(版本与冲突检测,异常时自动停用插件不影响 DSH 启动)。",
+    "categories": [
+      "通知",
+      "消耗统计",
+      "Web UI",
+      "观测"
+    ],
+    "surfaces": [
+      "host",
+      "web"
+    ],
+    "capabilities": {
+      "provides": [
+        "service:task-notice"
+      ]
+    },
+    "compatibility": {
+      "dsh": ">=0.1.0-rc.5",
+      "node": ">=20"
+    },
+    "permissions": {}
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "client-plugin",
+    "notice",
+    "notification",
+    "token",
+    "usage",
+    "statistics",
+    "消耗",
+    "通知",
+    "统计",
+    "api-key"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "zod": "^4.4.0",
+    "react": "^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  }
+}
