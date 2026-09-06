@@ -14,8 +14,8 @@ DeepSeek Harness 插件:**代理任务完工通知 + 按 API Key 的 Token 消�
 # 在插件源码目录执行,产出 dsh-task-notice-0.1.0.tgz
 pnpm pack
 
-# 安装(路径无空格限制)
-dsh plugin --profile web add "F:\dsh-task-notice-0.1.0.tgz"
+# 安装(路径无空格限制) 下载文件后使用
+dsh plugin --profile web add "文件路径"
 ```
 
 > `dsh plugin add` 会先 `pnpm add` 安装依赖,再把声明了 `dsh.bundle.patch` 的包加入 `dsh.profile.bundles` 层栈。完成后重启 `dsh web` 生效(该 profile 的 `patchReload` 为 live,但依赖变更需要重启)。
@@ -105,7 +105,3 @@ cordis.patch.yml  本包的 profile 层补丁(挂载一行)
 ```
 
 依赖纪律(安全启动的根基):宿主入口**零顶层外部 import**(只 import Node 内建模块与自身模块);运行期可用的服务(session/settings/credentials/typert/loader/llm)一律经 `ctx` 访问;唯一的外部包 `zod`(Typert 编解码强制要求)在 apply() 内用 try/catch 包裹的动态 import 加载。这样即使依赖解析失败(如 Windows `link:` 安装的 junction realpath 陷阱),也只让本插件停用,DSH 照常启动——从结构上杜绝了社区插件「不存在的命名导出在模块求值期抛 SyntaxError 导致整个 dsh 无法启动」的灾难。
-
-## License
-
-MIT
