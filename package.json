@@ -1,6 +1,6 @@
 {
   "name": "dsh-task-notice",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "DeepSeek Harness 插件:代理任务完工通知(弹窗提示任务完成与本次 Token 消耗)+ 按 API Key 的 Token 消耗统计(缓存输入/缓外输入/输出,1年/6个月/3个月/1个月/15天/1周/24小时/自定义时间范围查询)+ 安全启动(版本兼容与插件冲突检测,冲突或版本不兼容时自动取消插件运行;模块解析失败等异常同样只会停用本插件,保证 DSH 正常启动)。",
   "type": "module",
   "main": "lib/index.js",
