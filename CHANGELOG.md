@@ -1,8 +1,18 @@
 # Changelog
 
+## 0.3.2 (2026-09)
+
+- **Key 身份 = Provider ID(全局模型设置路由)**:消耗统计与使用分析的「按 Key」行、Token Plan 归属都改以**全局模型设置里的 Provider 路由**为身份(如 scnet / ten / deepseek-official),显示名用该 Provider 的 displayName(如 超算互联网 / DeepSeek);环境变量名(apiKeyEnv,如 SCNET_API_KEY)只作辅助展示。账本旧 key 标签自动迁移/兼容:plans 里按旧 env 名或 Provider 名设置的套餐在读取与启动时归一为 Provider id(目录未就绪时按内置路由提示表推导,查不到的键保留原样供手动删除)。
+- **设置页新增「Token Plan Key 管理」**(取代原「价格编辑-Token订阅」):管理所有 Key(Provider 目录 ∪ 消耗记录 ∪ 已有计划键)的 Token Plan 设置(开关 / 订阅费 / Credit / 套餐起效 / 有效期或每月 1 号重置 / 回本进度 / Credit 换算),并支持**删除该 Key 原有的 Token plan 属性**(删除后该 Key 不再按订阅计费,消耗记录与金额保留)。
+- **设置页新增「Provider ID 管理」**:插件自维护 Provider 目录(Provider ID + 显示名 + 环境变量名 + 所含模型),提供**重置(重新抓取全局模型设置 + 账本观测并持久化)**与**手动删除失效 Provider ID**(移出目录 + 删除其 Token Plan,重扫不再复活)。
+- **首次启动 / 无数据时自动抓取 Provider 目录**:从全局模型设置(设置 → 模型,llm-* 命名空间 + 已注册 provider 路由)获取所有已配置 Provider 的 ID / 显示名 / 所含模型;价格编辑页在无消耗记录时也列出 Provider 目录所含模型,可提前定价。
+- **顶部导航按钮顺序调整**:设置 → 任务通知与消耗 页顶部导航顺序改为 消耗统计 → 使用分析 → 价格编辑 → 设置。
+- 配置结构新增 `providers` 覆盖段({ version, updatedAt, removed, list }),由宿主维护;`plans` 键以 Provider id 为准(读取侧归一,旧 env 标签兼容)。
+- 服务端新增 RPC:`getProviderDirectory()` / `refreshProviderDirectory()` / `deleteProviderId(id)`;统计与使用分析行携带 `keyEnv` / `providerName` 辅助展示字段。
+
 ## 0.3.1 (2026-09)
 
-- **顶部导航新增「设置」选项卡**:原「消耗统计」视图中的插件配置项(插件总开关 / 每轮任务弹窗 / 目标完成弹窗 / 权限请求提醒 / 提问提醒 / 弹窗时长 / 浏览器系统通知 / 仅后台发送 / 账本保留天数)移至「设置」视图;新增**清除记录数据**——滑条拖到底 → 输入随机 8 位英文数字验证码 → 连续点击两次确认才执行清除(服务端 clearUsage 清空 usage.json,价格/套餐/峰谷配置保留;清除后统计与分析自动刷新)。
+- **顶部导航新增「设置」选项卡**:原「消耗统计」视图中的插件配置项(插件总开关 / 每轮任务弹窗 / 目标完成弹窗 / 权限请求提醒 / 提问提醒 / 弹窗时长 / 浏览器系统通知 / 仅后台发送 / 账本保留天数)移至「设置」视图;新增**清除记录数据**——图形验证码滑块拖到底(锁定变绿)→ 输入随机 8 位英文数字验证码 → 连续点击两次确认才执行清除(服务端 clearUsage 清空 usage.json,价格/套餐/峰谷配置保留;清除后统计与分析自动刷新;宿主进程未重启导致 remote 缺 clearUsage 时,面板显示明确提示而非报错)。
 - **修复消耗归因「张冠李戴」**:旧版按 provider 硬编码命名空间取 apiKeyEnv,把 scnet 等 provider 的调用误记到共享命名空间(llm-deepseek)的 DEEPSEEK_API_KEY 名下;现按**真实路由配置**解析(扫描 settings 的 llm-* 命名空间 providers[route].apiKeyEnv → llm-<route> 扁平命名空间 → 路由专属环境变量),启动时对历史账本**按新解析器重算一次归属**(幂等),每次调用记录的模型名与 Key 均为该次调用实际使用的值。
 - **默认价格目录对齐《主流大模型API官方价格汇总.xlsx》(2026-09)**:内置官方价目录扩至 80+ 模型,表格已收录的模型默认价一律按表格取值(输入价→缓外输入、缓存命中价→缓存命中、输出价→输出;区间价取基础起步价;DeepSeek 峰档 = 2× 谷档),并新增字节 Seed/Doubao、百度 ERNIE、腾讯混元、智谱 GLM-4-Plus / 4-Air / 4.7-Flash(免费)、月之暗面 K3 / K2.6 / K2.5 / Moonshot、阿里 Qwen3.7-Max / 3.6-Flash、小米 MiMo、零一 Yi-Lightning、阶跃 Step-3.7-Flash、百川 Baichuan-M3-Plus、讯飞 Spark、OpenAI GPT-5.4-Nano、Claude Fable 5 / Opus 5 / Sonnet 5、Gemini 3.6 / 3.5 Flash 系列等条目;DeepSeek V3.1 / R1 独立成行;表格未收录的既有官方价条目保留补充。
 - **顶部导航栏新增「使用分析」界面**:在原「消耗统计 / 价格编辑」导航基础上新增「使用分析」页,分析规定时间内各大模型的使用资金状况,包含四个模块:

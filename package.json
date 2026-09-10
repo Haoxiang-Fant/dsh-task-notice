@@ -1,7 +1,7 @@
 {
   "name": "dsh-task-notice",
-  "version": "0.3.1",
-  "description": "DeepSeek Harness 插件:代理任务完工通知(弹窗提示任务完成与本次 Token 消耗及金额)+ 按 API Key 的 Token 消耗统计(缓存输入/缓外输入/输出,1年/6个月/3个月/1个月/15天/1周/24小时/自定义时间范围查询)+ 价格编辑(独立页面:模型价格跨 Key 合并,默认按官方价计费,激活后可自定义;0.1/0.2 旧账目默认按低谷价计算金额;Token Plan 订阅按金额与订阅费判断回本;Credit 换算;峰谷计价)+ 使用分析(顶部导航:模型金额占比饼图、各 Key 消耗额度、Token Plan 回本与计费周期/重置、性价比计算、每日费用消耗表)。",
+  "version": "0.3.2",
+  "description": "DeepSeek Harness 插件:代理任务完工通知(弹窗提示任务完成与本次 Token 消耗及金额)+ 按 Provider(Key = 全局模型设置路由)的 Token 消耗统计(缓存输入/缓外输入/输出,1年/6个月/3个月/1个月/15天/1周/24小时/自定义时间范围查询)+ 价格编辑(独立页面:模型价格跨 Key 合并,默认按官方价计费,激活后可自定义;0.1/0.2 旧账目默认按低谷价计算金额;峰谷计价)+ 使用分析(顶部导航:模型金额占比饼图、各 Provider 消耗额度、Token Plan 回本与计费周期/重置、性价比计算、每日费用消耗表)+ 设置(插件配置 / Token Plan Key 管理 / Provider ID 管理 / 清除记录数据)。Provider ID 管理可从全局模型设置抓取 Provider ID/显示名/所含模型,首次启动或无数据时自动抓取,可手动删除失效 Provider ID。",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -27,7 +27,7 @@
   "dshhub": {
     "schemaVersion": 1,
     "displayName": "dsh-task-notice",
-    "summary": "代理任务完工弹窗通知(含本次 Token 消耗与金额)、按 API Key 统计 Token 消耗(缓存输入/缓外输入/输出,支持 1年/6个月/3个月/1个月/15天/1周/24小时/自定义时间)、价格编辑(独立页面,模型价格跨 Key 合并,默认官方价,激活后自定义;旧账目按低谷价)、Token Plan 订阅回本判断与 Credit 换算、峰谷计价、使用分析(模型金额占比饼图/各 Key 额度/Token Plan 回本与计费周期重置/性价比/每日费用消耗表)。",
+    "summary": "代理任务完工弹窗通知(含本次 Token 消耗与金额)、按 Provider(Key = 全局模型设置路由)统计 Token 消耗(缓存输入/缓外输入/输出,1年/6个月/3个月/1个月/15天/1周/24小时/自定义时间)、价格编辑(独立页面,模型价格跨 Key 合并,默认官方价,激活后自定义;旧账目按低谷价)、峰谷计价、使用分析(模型金额占比饼图/各 Provider 额度/Token Plan 回本与计费周期重置/性价比/每日费用消耗表)、设置(插件配置/Token Plan Key 管理/Provider ID 管理/清除记录数据)。Provider ID 管理可从全局模型设置抓取 Provider ID/显示名/所含模型,首次启动或无数据时自动抓取,可手动删除失效 Provider ID。",
     "categories": [
       "通知",
       "消耗统计",
